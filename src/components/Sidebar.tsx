@@ -1,7 +1,7 @@
 import React from 'react';
-import { useState } from 'react';
-import { Bars3Icon as MenuIcon, XMarkIcon as XIcon } from '@heroicons/react/24/outline';
+import styled from 'styled-components';
 import { Link } from 'react-router-dom';
+import { Bars3Icon as MenuIcon, XMarkIcon as XIcon } from '@heroicons/react/24/outline';
 
 const categories = [
   { id: 1, name: 'Technical Issues', slug: 'technical-issues' },
@@ -11,40 +11,54 @@ const categories = [
   { id: 5, name: 'Shipping & Delivery', slug: 'shipping-delivery' },
 ];
 
+const SidebarContainer = styled.div`
+  position: fixed;
+  inset: 0;
+  left: 0;
+  z-index: 30;
+  width: 16rem;
+  background: white;
+  border-right: 1px solid rgba(0, 0, 0, 0.1);
+  @media (min-width: 768px) {
+    position: static;
+    inset: auto;
+  }
+`;
+
+const SidebarHeader = styled.div`
+  padding: 1rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+`;
+
+const SidebarNav = styled.nav`
+  padding: 1rem;
+`;
+
+const NavItem = styled(Link)`
+  padding: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  text-decoration: none;
+  color: inherit;
+  
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+`;
+
 const Sidebar = () => {
-  const [isOpen, setIsOpen] = useState(false);
-
   return (
-    <div className="fixed inset-y-0 left-0 z-30 w-64 bg-white border-r border-gray-200 md:static md:inset-0">
-      <div className="flex items-center justify-between p-4 border-b border-gray-200">
-        <h1 className="text-xl font-bold text-gray-800">Support Playbook</h1>
-        <button
-          onClick={() => setIsOpen(!isOpen)}
-          className="md:hidden"
-        >
-          {isOpen ? (
-            <XIcon className="w-6 h-6 text-gray-600" />
-          ) : (
-            <MenuIcon className="w-6 h-6 text-gray-600" />
-          )}
-        </button>
-      </div>
-
-      <nav className="mt-4">
-        <ul className="space-y-1">
-          {categories.map((category) => (
-            <li key={category.id}>
-              <Link
-                to={`/category/${category.slug}`}
-                className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100"
-              >
-                {category.name}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </nav>
-    </div>
+    <SidebarContainer>
+      <SidebarHeader>
+        <h2>Support Playbook</h2>
+      </SidebarHeader>
+      <SidebarNav>
+        <NavItem to="/category/account-management">Account Management</NavItem>
+        <NavItem to="/category/billing">Billing</NavItem>
+        <NavItem to="/category/product-features">Product Features</NavItem>
+        <NavItem to="/category/shipping">Shipping & Delivery</NavItem>
+      </SidebarNav>
+    </SidebarContainer>
   );
 };
 
